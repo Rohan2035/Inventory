@@ -1,0 +1,10 @@
+INSERT INTO `product_details`(PRODUCT_NAME, PRODUCT_DESCRIPTION, PRODUCT_CATEGORY, PRODUCT_PRICE, PRODUCT_QUANTITY) values
+('Colgate Toothpaste', 'Good Tooth Paste', 'FMCG', '90', 3),
+('Samsoong Phone', 'Good Mobile', 'Electronics', '23,000', 4),
+('Tata Salt', 'Good Salt', 'FMCG', '45', 5);
+
+INSERT INTO `user_details`(USER_NAME, USER_FIRST_NAME, USER_LAST_NAME, USER_PASSWORD, USER_EMAIL) values
+('Hayami', 'Hayami', 'Saori', 'password', 'SaoriHayami@gmail.com'),
+('Tsuda', 'Kenjiro', 'Tsuda', 'password', 'KenjiroTsuda@gmail.com'),
+('Hajimoto', 'Toji', 'Toji', 'password', 'TojiHajimoto@gmail.com');
+
