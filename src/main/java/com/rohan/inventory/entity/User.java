@@ -17,6 +17,21 @@ public class User {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "user_first_name")
+    private String firstName;
+
+    @Column(name = "user_last_name")
+    private String userLastName;
+
+    @Column(name = "user_password")
+    private String password;
+
+    @Column(name = "email")
+    private String email;
+
     @OneToMany(mappedBy = "user")
     private List<Order> orderList;
 }

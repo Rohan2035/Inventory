@@ -4,6 +4,8 @@ import com.rohan.inventory.DTO.ProductRequestDTO;
 import com.rohan.inventory.DTO.ProductResponseDTO;
 import com.rohan.inventory.entity.Product;
 import com.rohan.inventory.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,34 +14,51 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private static Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Autowired
     private ProductRepository productRepository;
 
     @Override
     public List<ProductResponseDTO> getAllProduct() {
         List<Product> productList = productRepository.findAll();
-        System.out.println("Product List: " + productList);
         return productList.stream()
-                .map(this::productMapper)
+                .map(this::productResponseDTOMapper)
                 .toList();
     }
 
     @Override
-    public List<ProductResponseDTO> getProductByProductName() {
-        return List.of();
+    public List<ProductResponseDTO> getProductByProductName(String productName) {
+        List<Product> productList = productRepository.findByProductName(productName);
+        return productList.stream()
+                .map(this::productResponseDTOMapper)
+                .toList();
     }
 
     @Override
     public String addProduct(ProductRequestDTO requestDTO) {
-        return "";
+        Product product = this.productMapper(requestDTO);
+        try {
+            productRepository.save(product);
+        } catch (Exception e) {
+            LOG.error("Exception: ", e);
+            return "Failed";
+        }
+        return "Success";
     }
 
     @Override
-    public void deleteProduct(ProductRequestDTO requestDTO) {
-
+    public String deleteProduct(String productName) {
+        try {
+            productRepository.findByProductName(productName);
+        } catch (Exception e) {
+            LOG.error("Exception: ", e);
+            return "Failed";
+        }
+        return "Success";
     }
 
-    protected ProductResponseDTO productMapper(Product product) {
+    protected ProductResponseDTO productResponseDTOMapper(Product product) {
         ProductResponseDTO productResponseDTO = new ProductResponseDTO();
         productResponseDTO.setProductName(product.getProductName());
         productResponseDTO.setProductDescription(product.getProductDescription());
@@ -47,5 +66,15 @@ public class ProductServiceImpl implements ProductService {
         productResponseDTO.setProductPrice(product.getProductPrice());
         productResponseDTO.setProductQuantity(product.getProductQuantity());
         return productResponseDTO;
+    }
+
+    protected Product productMapper(ProductRequestDTO productRequestDTO) {
+        Product product = new Product();
+        product.setProductName(productRequestDTO.getProductName());
+        product.setProductPrice(productRequestDTO.getProductPrice());
+        product.setProductCategory(productRequestDTO.getProductCategory());
+        product.setProductDescription(productRequestDTO.getProductDescription());
+        product.setProductQuantity(productRequestDTO.getProductQuantity());
+        return product;
     }
 }

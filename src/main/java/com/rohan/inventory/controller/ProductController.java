@@ -1,15 +1,15 @@
 package com.rohan.inventory.controller;
 
+import com.rohan.inventory.DTO.ProductRequestDTO;
 import com.rohan.inventory.DTO.ProductResponseDTO;
 import com.rohan.inventory.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -23,5 +23,22 @@ public class ProductController {
     @GetMapping("/products")
     public List<ProductResponseDTO> getAllProducts() {
         return productService.getAllProduct();
+    }
+
+    @GetMapping("/getproductname")
+    public List<ProductResponseDTO> getProductName(@RequestParam("productName") String productName) {
+        return productService.getProductByProductName(productName);
+    }
+
+    @PostMapping("/addproduct")
+    public Map<String, String> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        String response =  productService.addProduct(productRequestDTO);
+        return Map.of("Status", response);
+    }
+
+    @DeleteMapping("/deleteproduct")
+    public Map<String, String> deleteProduct(@RequestParam("productName") String productName) {
+        String response = productService.deleteProduct(productName);
+        return Map.of("Status", response);
     }
 }

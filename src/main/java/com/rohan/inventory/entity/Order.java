@@ -13,9 +13,9 @@ import java.util.List;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer orderId;
-
 
     @Column(name = "order_date")
     private String orderDate;
