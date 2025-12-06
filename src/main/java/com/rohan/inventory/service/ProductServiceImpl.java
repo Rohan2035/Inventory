@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private static Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Autowired
     private ProductRepository productRepository;

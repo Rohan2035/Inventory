@@ -27,8 +27,9 @@ public class OrderController {
     }
 
     @PostMapping("/addorder")
-    public Map<String, String> addOrder(@RequestBody OrderRequestDTO requestDTO) {
-        return null;
+    public Map<String, String> addOrder(@RequestBody List<OrderRequestDTO> requestDTO) {
+        String status =  orderService.addOrder(requestDTO);
+        return Map.of("Status", status);
     }
 
     @DeleteMapping
