@@ -29,8 +29,11 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "user_email")
     private String email;
+
+    @Column(name = "user_address")
+    private String userAddress;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orderList;

@@ -1,4 +1,4 @@
-package com.rohan.inventory.DTO;
+package com.rohan.inventory.dto;
 
 import lombok.Data;
 

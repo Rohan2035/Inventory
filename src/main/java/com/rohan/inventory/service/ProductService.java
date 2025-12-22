@@ -1,7 +1,7 @@
 package com.rohan.inventory.service;
 
-import com.rohan.inventory.DTO.ProductRequestDTO;
-import com.rohan.inventory.DTO.ProductResponseDTO;
+import com.rohan.inventory.dto.ProductRequestDTO;
+import com.rohan.inventory.dto.ProductResponseDTO;
 
 import java.util.List;
 

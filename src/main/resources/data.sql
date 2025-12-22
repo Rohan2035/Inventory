@@ -3,8 +3,8 @@ INSERT INTO `product_details`(PRODUCT_NAME, PRODUCT_DESCRIPTION, PRODUCT_CATEGOR
 ('Samsoong Phone', 'Good Mobile', 'Electronics', '23,000', 4),
 ('Tata Salt', 'Good Salt', 'FMCG', '45', 5);
 
-INSERT INTO `user_details`(USER_NAME, USER_FIRST_NAME, USER_LAST_NAME, USER_PASSWORD, USER_EMAIL) values
-('Hayami', 'Hayami', 'Saori', 'password', 'SaoriHayami@gmail.com'),
-('Tsuda', 'Kenjiro', 'Tsuda', 'password', 'KenjiroTsuda@gmail.com'),
-('Hajimoto', 'Toji', 'Toji', 'password', 'TojiHajimoto@gmail.com');
+INSERT INTO `user_details`(USER_NAME, USER_FIRST_NAME, USER_LAST_NAME, USER_PASSWORD, USER_EMAIL, USER_ADDRESS) values
+('Hayami', 'Hayami', 'Saori', 'password', 'SaoriHayami@gmail.com', 'TOKYO, JAPAN'),
+('Tsuda', 'Kenjiro', 'Tsuda', 'password', 'KenjiroTsuda@gmail.com', 'TOKYO, JAPAN'),
+('Hajimoto', 'Toji', 'Toji', 'password', 'TojiHajimoto@gmail.com', 'TOKYO, JAPAN');
 

@@ -1,14 +1,14 @@
-package com.rohan.inventory.DTO;
+package com.rohan.inventory.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductRequestDTO {
+public class ProductResponseDTO {
     private String productName;
     private String productDescription;
     private String productCategory;
     private String productPrice;
-    private Integer productQuantity;
+    private int productQuantity;
 }

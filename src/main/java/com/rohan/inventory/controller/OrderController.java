@@ -1,8 +1,8 @@
 package com.rohan.inventory.controller;
 
 
-import com.rohan.inventory.DTO.OrderRequestDTO;
-import com.rohan.inventory.DTO.OrderResponseDTO;
+import com.rohan.inventory.dto.OrderRequestDTO;
+import com.rohan.inventory.dto.OrderResponseDTO;
 import com.rohan.inventory.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class OrderController {
     }
 
     @PostMapping("/addorder")
-    public Map<String, String> addOrder(@RequestBody List<OrderRequestDTO> requestDTO) {
+    public Map<String, String> addOrder(@RequestBody OrderRequestDTO requestDTO) {
         String status =  orderService.addOrder(requestDTO);
         return Map.of("Status", status);
     }

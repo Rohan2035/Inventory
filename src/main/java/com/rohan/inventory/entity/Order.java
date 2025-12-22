@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,9 +25,6 @@ public class Order {
     @Column(name = "PRODUCT_QUANTITY")
     private Integer productQuantity;
 
-    @Column(name = "USER_LOCATION")
-    private String userLocation;
-
     @Column(name = "PRODUCT_PRICE")
     private String productPrice;
 
@@ -43,7 +39,9 @@ public class Order {
     @PrePersist
     public void generateUniqueCode() {
         if(!StringUtils.hasLength(this.orderCode)) {
-            this.orderCode = UUID.randomUUID().toString();
+            this.orderCode = UUID.randomUUID().toString()
+                    .substring(0, 6)
+                    .replace("_", "");
         }
     }
 }

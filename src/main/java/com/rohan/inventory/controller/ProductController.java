@@ -1,7 +1,7 @@
 package com.rohan.inventory.controller;
 
-import com.rohan.inventory.DTO.ProductRequestDTO;
-import com.rohan.inventory.DTO.ProductResponseDTO;
+import com.rohan.inventory.dto.ProductRequestDTO;
+import com.rohan.inventory.dto.ProductResponseDTO;
 import com.rohan.inventory.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

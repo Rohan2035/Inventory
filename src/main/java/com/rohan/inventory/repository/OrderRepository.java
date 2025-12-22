@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    @Query("SELECT o FROM Order o WHERE o.user.userName = :username")
-    Optional<List<Order>> findByUserName(@Param("username") String username);
+    @Query("SELECT o FROM Order o WHERE o.user.email = :email")
+    Optional<List<Order>> findByUserEmail(@Param("email") String email);
 }
