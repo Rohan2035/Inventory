@@ -2,6 +2,7 @@ package com.rohan.inventory.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
@@ -28,9 +29,8 @@ public class Order {
     @Column(name = "PRODUCT_PRICE")
     private String productPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(name = "product_id")
+    private Integer productId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
