@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
         order.setProductId(productId);
         order.setProductPrice(orderRequestDTO.getProductPrice());
         order.setProductQuantity(orderRequestDTO.getProductQuantity());
-        order.setOrderDate(LocalDateTime.now().toString());
+        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 

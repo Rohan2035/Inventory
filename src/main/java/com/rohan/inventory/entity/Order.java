@@ -2,9 +2,10 @@ package com.rohan.inventory.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Formula;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,13 +22,13 @@ public class Order {
     private String orderCode;
 
     @Column(name = "ORDER_DATE")
-    private String orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "PRODUCT_QUANTITY")
     private Integer productQuantity;
 
     @Column(name = "PRODUCT_PRICE")
-    private String productPrice;
+    private BigDecimal productPrice;
 
     @Column(name = "product_id")
     private Integer productId;

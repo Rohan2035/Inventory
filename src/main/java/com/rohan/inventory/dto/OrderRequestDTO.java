@@ -2,6 +2,7 @@ package com.rohan.inventory.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -12,7 +13,7 @@ public class OrderRequestDTO {
     @Data
     public static class InnerOrderRequestDTO {
         private String productName;
-        private String productPrice;
+        private BigDecimal productPrice;
         private int productQuantity;
     }
 }
