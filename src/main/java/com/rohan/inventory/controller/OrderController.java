@@ -2,7 +2,7 @@ package com.rohan.inventory.controller;
 
 
 import com.rohan.inventory.dto.OrderRequestDTO;
-import com.rohan.inventory.dto.OrderResponseDTO;
+import com.rohan.inventory.dto.ViewOrderResponseDTO;
 import com.rohan.inventory.dto.ViewOrderRequestDTO;
 import com.rohan.inventory.service.OrderService;
 import org.slf4j.Logger;
@@ -24,7 +24,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/getorder")
-    public List<OrderResponseDTO> getOrder(@RequestBody ViewOrderRequestDTO requestDTO) {
+    public List<ViewOrderResponseDTO> getOrder(@RequestBody ViewOrderRequestDTO requestDTO) {
+        orderService.viewOrder(requestDTO);
         return null;
     }
 

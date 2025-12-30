@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Integer orderId;
 
-    @Column(name = "ORDER_CD")
+    @Column(name = "ORDER_CD", unique = true)
     private String orderCode;
 
     @Column(name = "ORDER_DATE")

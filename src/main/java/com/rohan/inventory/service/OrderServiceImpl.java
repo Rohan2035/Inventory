@@ -1,17 +1,20 @@
 package com.rohan.inventory.service;
 
 import com.rohan.inventory.dto.OrderRequestDTO;
-import com.rohan.inventory.dto.OrderResponseDTO;
+import com.rohan.inventory.dto.ViewOrderResponseDTO;
 import com.rohan.inventory.dto.ViewOrderRequestDTO;
 import com.rohan.inventory.entity.Order;
 import com.rohan.inventory.entity.Product;
 import com.rohan.inventory.entity.User;
+import com.rohan.inventory.entity.ViewOrder;
+import com.rohan.inventory.exceptions.OrderNotFoundException;
 import com.rohan.inventory.exceptions.ProductNotFoundException;
 import com.rohan.inventory.exceptions.ProductQuantityExceededException;
 import com.rohan.inventory.exceptions.UserDetailsNotFoundException;
 import com.rohan.inventory.repository.OrderRepository;
 import com.rohan.inventory.repository.ProductRepository;
 import com.rohan.inventory.repository.UserDetailsRepository;
+import com.rohan.inventory.repository.ViewOrderDetailsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +33,20 @@ public class OrderServiceImpl implements OrderService {
     private static final String USER_NOT_FOUND_MSG = "User Details not found for email: ";
     private static final String PRODUCT_QUANTITY_MSG = "Product Quantity Exceeded for product: ";
     private static final String PRODUCT_NOT_FOUND = "Product not found: ";
+    private static final String ORDER_NOT_FOUND = "Sorry, No Orders Found!";
 
     private final OrderRepository orderRepository;
     private final UserDetailsRepository userDetailsRepository;
     private final ProductRepository productRepository;
+    private final ViewOrderDetailsRepository viewOrderDetailsRepository;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, UserDetailsRepository userDetailsRepository,
-                            ProductRepository productRepository) {
+                            ProductRepository productRepository, ViewOrderDetailsRepository viewOrderDetailsRepository) {
         this.orderRepository = orderRepository;
         this.userDetailsRepository = userDetailsRepository;
         this.productRepository = productRepository;
+        this.viewOrderDetailsRepository = viewOrderDetailsRepository;
     }
 
     @Override
@@ -76,12 +82,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponseDTO> viewOrder(ViewOrderRequestDTO orderRequestDTO) {
+    public List<ViewOrderResponseDTO> viewOrder(ViewOrderRequestDTO orderRequestDTO) {
+        List<ViewOrder> orderList = viewOrderDetailsRepository.findOrders(
+          orderRequestDTO.getUserEmail(),
+          orderRequestDTO.getOrderDate(),
+          orderRequestDTO.getOrderCode()
+        ).orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND));
+
         return null;
     }
 
     @Override
-    public List<OrderResponseDTO> viewAllOrder(String username) {
+    public List<ViewOrderResponseDTO> viewAllOrder(String username) {
         return null;
     }
 
@@ -95,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    protected OrderResponseDTO mapOrderResponse(Order order) {
+    protected ViewOrderResponseDTO mapOrderResponse(Order order) {
         return null;
     }
 }

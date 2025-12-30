@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderResponseDTO {
+public class ViewOrderResponseDTO {
     private String userName;
     private String userLocation;
     private String orderCode;
