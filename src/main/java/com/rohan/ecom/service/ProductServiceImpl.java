@@ -1,31 +1,35 @@
 package com.rohan.ecom.service;
 
+import com.rohan.ecom.dto.ProductListDTO;
 import com.rohan.ecom.dto.ProductRequestDTO;
 import com.rohan.ecom.dto.ProductResponseDTO;
+import com.rohan.ecom.entity.Order;
 import com.rohan.ecom.entity.Product;
+import com.rohan.ecom.exceptions.OpenEcomException;
+import com.rohan.ecom.repository.OrderRepository;
 import com.rohan.ecom.repository.ProductRepository;
+import org.hibernate.query.spi.Limit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+
     @Autowired
-    private ProductRepository productRepository;
-
-    @Override
-    public List<ProductResponseDTO> getAllProduct() {
-        List<Product> productList = productRepository.findAll();
-
-        return productList.stream()
-                .map(this::productResponseDTOMapper)
-                .toList();
+    public ProductServiceImpl(ProductRepository productRepository,
+                              OrderRepository orderRepository) {
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -37,28 +41,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String addProduct(ProductRequestDTO requestDTO) {
-        Product product = this.productMapper(requestDTO);
-        try {
-            productRepository.save(product);
-        } catch (Exception e) {
-            LOG.error("Exception: ", e);
-            return "Failed";
-        }
-
-        return "Success";
+    public ProductListDTO getProductSuggestion(String username) {
+        // Todo - Future - API Calls that will run python scripts and suggest products
+        // For now - Just the DB Calls and fetch the recent products that were ordered
+        List<Order> orders = orderRepository.getProducts(username, new Limit(0, 10))
+                .orElseThrow(() -> new OpenEcomException("Products not found!"));
+        Set<Integer> productIds = getProductsfromRecentOrders(orders);
+        return null;
     }
 
-    @Override
-    public String deleteProduct(String productName) {
-        try {
-            productRepository.findByProductName(productName);
-        } catch (Exception e) {
-            LOG.error("Exception: ", e);
-            return "Failed";
-        }
-
-        return "Success";
+    protected Set<Integer> getProductsfromRecentOrders(List<Order> orders) {
+        return Set.of();
     }
 
     protected ProductResponseDTO productResponseDTOMapper(Product product) {

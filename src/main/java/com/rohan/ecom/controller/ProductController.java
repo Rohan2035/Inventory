@@ -1,5 +1,6 @@
 package com.rohan.ecom.controller;
 
+import com.rohan.ecom.dto.ProductListDTO;
 import com.rohan.ecom.dto.ProductRequestDTO;
 import com.rohan.ecom.dto.ProductResponseDTO;
 import com.rohan.ecom.service.ProductService;
@@ -20,25 +21,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
-    public List<ProductResponseDTO> getAllProducts() {
-        return productService.getAllProduct();
-    }
-
     @GetMapping("/getproductname")
     public ProductResponseDTO getProductName(@RequestParam("productName") String productName) {
         return productService.getProductByProductName(productName);
     }
 
-    @PostMapping("/addproduct")
-    public Map<String, String> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
-        String response =  productService.addProduct(productRequestDTO);
-        return Map.of("Status", response);
-    }
-
-    @DeleteMapping("/deleteproduct")
-    public Map<String, String> deleteProduct(@RequestParam("productName") String productName) {
-        String response = productService.deleteProduct(productName);
-        return Map.of("Status", response);
+    @PostMapping("/productsuggestion")
+    public ProductListDTO getProductSuggestions(@RequestParam("username") String username) {
+        productService.getProductSuggestion(username);
+        return null;
     }
 }
