@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
         Map<String, Product> productMap = fetchProductMap(productNames);
 
         LOG.info("Generating Order Code");
-        String orderCode = generateOrderCode(user.getUserName());
+        String orderCode = generateOrderCode(user.getUsername());
 
         List<Order> orders = new ArrayList<>();
         for(OrderRequestDTO.InnerOrderRequestDTO orderRequests : orderRequestDTO.getOrderRequests()) {
