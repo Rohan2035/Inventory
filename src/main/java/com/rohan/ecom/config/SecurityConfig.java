@@ -16,7 +16,6 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         httpSecurity.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/product/**").authenticated();
             auth.anyRequest().permitAll();
         });
 

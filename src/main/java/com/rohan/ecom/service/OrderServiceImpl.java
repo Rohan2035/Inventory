@@ -132,15 +132,11 @@ public class OrderServiceImpl implements OrderService {
     public ViewOrderResponseDTO viewOrder(ViewOrderRequestDTO orderRequestDTO) {
         ViewOrderResponseDTO responseDTO;
 
-        LOG.info("Fetching Orders");
-        long startTime = System.currentTimeMillis();
         List<OrderNativeSqlResponseDTO> sqlResponse = viewOrderDetailsRepository.fetchOrders(
                 orderRequestDTO.getUserEmail(),
                 orderRequestDTO.getOrderDate(),
                 orderRequestDTO.getOrderCode()
         );
-        long endTime = System.currentTimeMillis();
-        LOG.info("Order Fetched in {} ms", (endTime - startTime));
 
         if(CollectionUtils.isEmpty(sqlResponse)) {
             LOG.info("Order is Empty");
@@ -152,6 +148,7 @@ public class OrderServiceImpl implements OrderService {
             return responseDTO;
         }
 
+        LOG.info("Order service - successfully fetched orders");
         responseDTO = this.mapViewOrderDTO(sqlResponse);
         responseDTO.setStatus(Codes.SUCCESS.getCode());
         responseDTO.setStatusMessage("Successfully Fetched " + responseDTO.getOrders().size() + " Orders");

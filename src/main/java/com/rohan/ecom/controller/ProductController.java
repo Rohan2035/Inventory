@@ -1,16 +1,15 @@
 package com.rohan.ecom.controller;
 
 import com.rohan.ecom.dto.ProductListDTO;
-import com.rohan.ecom.dto.ProductRequestDTO;
 import com.rohan.ecom.dto.ProductResponseDTO;
 import com.rohan.ecom.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/product")
@@ -23,12 +22,29 @@ public class ProductController {
 
     @GetMapping("/getproductname")
     public ProductResponseDTO getProductName(@RequestParam("productName") String productName) {
-        return productService.getProductByProductName(productName);
+        ProductResponseDTO responseDTO;
+        LOG.info("=== Fetching Products ===");
+        Long startTime = System.currentTimeMillis();
+
+        responseDTO = productService.getProductByProductName(productName);
+
+        Long endTime = System.currentTimeMillis();
+        LOG.info("GET Product - Total time taken: {}ms", (endTime - startTime));
+
+        return responseDTO;
     }
 
-    @PostMapping("/productsuggestion")
+    @GetMapping("/productsuggestion")
     public ProductListDTO getProductSuggestions(@RequestParam("username") String username) {
-        productService.getProductSuggestion(username);
-        return null;
+        ProductListDTO productListDTO;
+
+        LOG.info("=== Fetching Product Suggestions ===");
+        long startTime = System.currentTimeMillis();
+
+        productListDTO = productService.getProductSuggestion(username);
+
+        long endTime = System.currentTimeMillis();
+        LOG.info("GET Product Suggestions - Time Taken: {}ms", (endTime - startTime));
+        return productListDTO;
     }
 }

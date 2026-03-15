@@ -28,20 +28,20 @@ public class OrderController {
     @PostMapping("/getorder")
     public ViewOrderResponseDTO getOrder(@RequestBody ViewOrderRequestDTO requestDTO) {
         ViewOrderResponseDTO responseDTO;
-        LOG.info("<====== Fetching Orders ============>");
+        LOG.info("=== Fetching Orders ====");
         long startTime =  System.currentTimeMillis();
 
         responseDTO =  orderService.viewOrder(requestDTO);
 
         long endTime = System.currentTimeMillis();
-        LOG.info("Get Order - Total Time Taken: {} ms", (endTime - startTime));
+        LOG.info("Get Orders - Total Time Taken: {} ms", (endTime - startTime));
 
         return responseDTO;
     }
 
     @PostMapping("/addorder")
     public Map<String, String> addOrder(@RequestBody OrderRequestDTO requestDTO) {
-        LOG.info("<== Adding Orders ==>");
+        LOG.info("=== Adding Orders ===");
         long startTime = System.currentTimeMillis();
 
         String status =  orderService.addOrder(requestDTO);

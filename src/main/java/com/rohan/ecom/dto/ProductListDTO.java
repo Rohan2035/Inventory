@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class ProductListDTO {
-    private int status;
+    private String status;
     List<ProductResponseDTO> products;
 }
