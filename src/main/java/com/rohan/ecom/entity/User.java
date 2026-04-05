@@ -18,6 +18,7 @@ public class User implements UserDetails {
 
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     @Column(name = "user_name")
@@ -41,7 +42,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of((GrantedAuthority) () -> "ROLE_USER");
     }
 
     @Override

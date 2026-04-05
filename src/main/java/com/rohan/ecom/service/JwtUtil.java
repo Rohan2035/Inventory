@@ -9,16 +9,21 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 @Service
 public class JwtUtil {
 
-    // Use env variables for prod
-    private final String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
+    public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return  createToken(claims, username);
+    }
 
     private SecretKey getSignedKey() {
+        // Use env variables for prod
+        String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -46,7 +51,7 @@ public class JwtUtil {
         return claimsFunction.apply(claims);
     }
 
-    private String getUsername(String token) {
+    public String getUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

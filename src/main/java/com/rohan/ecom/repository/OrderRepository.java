@@ -14,7 +14,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query("""
             SELECT o from Order o
-            where o.user.userName = :username
+            where o.user.username = :username
             ORDER by o.orderDate DESC
             """)
     Optional<List<Order>> getProducts(String username, Limit limit);
