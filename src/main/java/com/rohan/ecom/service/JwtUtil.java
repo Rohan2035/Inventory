@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +17,16 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
+    @Value("${openEcom.secret}")
+    private String secret;
+
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return  createToken(claims, username);
     }
 
     private SecretKey getSignedKey() {
-        // Use env variables for prod
-        String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
