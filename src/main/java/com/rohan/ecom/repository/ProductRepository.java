@@ -43,4 +43,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     int confirmOrder(@Param("id") Integer productId, @Param("quantity") Integer productQuantity);
 
     Optional<List<Product>> findByProductNameIn(Set<String> productName);
+
+    Optional<List<Product>> findTop20By();
 }
