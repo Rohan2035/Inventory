@@ -1,5 +1,6 @@
 package com.rohan.ecom.service;
 
+import com.rohan.ecom.dao.OrderDAO;
 import com.rohan.ecom.dto.OrderNativeSqlResponseDTO;
 import com.rohan.ecom.dto.OrderProductResponseDTO;
 import com.rohan.ecom.dto.OrderRequestDTO;
@@ -55,6 +56,9 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentService paymentService;
 
     @Autowired
+    private OrderDAO orderDAO;
+
+    @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, UserDetailsRepository userDetailsRepository,
                             ProductRepository productRepository, ViewOrderDetailsRepository viewOrderDetailsRepository,
                             PaymentService paymentService) {
@@ -63,6 +67,27 @@ public class OrderServiceImpl implements OrderService {
         this.productRepository = productRepository;
         this.viewOrderDetailsRepository = viewOrderDetailsRepository;
         this.paymentService = paymentService;
+    }
+
+    public String createOrder(OrderRequestDTO orderRequestDTO) {
+        String orderCode = generateOrderCode(orderRequestDTO.getUserEmail());
+
+        List<Order> orders = new ArrayList<>();
+
+        for(OrderRequestDTO.InnerOrderRequestDTO orderRequest : orderRequestDTO.getOrderRequests()) {
+            LOG.info("Reserve Order for: " + orderCode.substring(0, 4) + "....");
+            orderDAO.reserveProductQuantities(orderRequest.getProductId(), orderRequest.getProductQuantity());
+
+            Order order = mapOrder(orderRequest, orderCode, "ADDRESS");
+            orders.add(order);
+        }
+
+        // Payment Logic
+
+        // Confirm Order or Revert
+
+
+        return "";
     }
 
     @Override
@@ -155,14 +180,12 @@ public class OrderServiceImpl implements OrderService {
         return responseDTO;
     }
 
-    protected Order mapOrder(OrderRequestDTO.InnerOrderRequestDTO orderRequestDTO, User user,
-            Integer productId, String orderCode, String address) {
+    protected Order mapOrder(OrderRequestDTO.InnerOrderRequestDTO orderRequestDTO, String orderCode, String address) {
 
         Order order = new Order();
-        order.setUser(user);
         order.setOrderCode(orderCode);
         order.setOrderAddress(address);
-        order.setProductId(productId);
+        order.setProductId(order.getProductId());
         order.setProductQuantity(orderRequestDTO.getProductQuantity());
         order.setProductPrice(orderRequestDTO.getProductPrice().multiply(BigDecimal.valueOf(orderRequestDTO.getProductQuantity())));
         order.setOrderDate(LocalDate.now());
@@ -170,18 +193,17 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    private static String generateOrderCode(String username) {
+    private static String generateOrderCode(String userEmail) {
         String randomCode = UUID.randomUUID().toString()
                 .substring(0, 3)
                 .replace("_", "");
 
-        String localDate = LocalDate.now().toString().replace("-", "");
-
-        if(username.length() > 5) {
-            username = username.substring(0, 3);
+        userEmail = userEmail.replace("@", "");
+        if(userEmail.length() > 4) {
+            userEmail = userEmail.substring(0, 4);
         }
 
-        return username.toLowerCase() + localDate + randomCode;
+        return userEmail.toLowerCase() + LocalDateTime.now().toString() + randomCode;
     }
 
     protected ViewOrderResponseDTO mapViewOrderDTO(List<OrderNativeSqlResponseDTO> sqlResponse) {

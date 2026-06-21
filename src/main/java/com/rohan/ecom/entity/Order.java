@@ -38,7 +38,6 @@ public class Order {
     @Column(name = "ADDRESS")
     private String orderAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Integer userId;
 }
