@@ -94,63 +94,63 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public String addOrder(OrderRequestDTO orderRequestDTO) {
         // Fetch User
-        User user = fetchUser(orderRequestDTO.getUserEmail());
+//        User user = fetchUser(orderRequestDTO.getUserEmail());
+//
+//        LOG.info("Creating Product List");
+//        Set<String> productNames = orderRequestDTO.getOrderRequests().stream()
+//                .map(OrderRequestDTO.InnerOrderRequestDTO::getProductName)
+//                .collect(Collectors.toSet());
+//
+//        // Fetch the product map
+//        Map<String, Product> productMap = fetchProductMap(productNames);
+//
+//        LOG.info("Generating Order Code");
+//        String orderCode = generateOrderCode(user.getUsername());
+//
+//        List<Order> orders = new ArrayList<>();
+//        for(OrderRequestDTO.InnerOrderRequestDTO orderRequests : orderRequestDTO.getOrderRequests()) {
+//            Product product = productMap.get(orderRequests.getProductName());
+//
+//            LOG.info("Reserve Product Quantities");
+//            reserveProductQuantities(product.getProductId(), orderRequests.getProductQuantity(), product.getProductName());
+//
+//            LOG.info("Mapping Orders");
+//            Order order = this.mapOrder(orderRequests, user, product.getProductId(), orderCode, orderRequestDTO.getAddress());
+//            orders.add(order);
+//        }
+//
+//        // Payment Gateway Logic
+//        LOG.info("Initiating Payment");
+//        String response = paymentService.makePayment();
+//
+//        if(response.equals(SUCCESS)) {
+//            try {
+//                LOG.info("Confirming Order");
+//                confirmOrder(productMap, orderRequestDTO.getOrderRequests());
+//            } catch(Exception e) {
+//                response = FAIL;
+//                releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
+//                // Refund Payment
+//                paymentService.refundPayment();
+//                return response;
+//            }
+//
+//            try {
+//                LOG.info("Saving Orders");
+//                orderRepository.saveAll(orders);
+//            } catch(Exception e) {
+//                response = FAIL;
+//                releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
+//                // refund payment
+//                paymentService.refundPayment();
+//                return response;
+//            }
+//        } else {
+//            releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
+//            response = FAIL;
+//        }
 
-        LOG.info("Creating Product List");
-        Set<String> productNames = orderRequestDTO.getOrderRequests().stream()
-                .map(OrderRequestDTO.InnerOrderRequestDTO::getProductName)
-                .collect(Collectors.toSet());
-
-        // Fetch the product map
-        Map<String, Product> productMap = fetchProductMap(productNames);
-
-        LOG.info("Generating Order Code");
-        String orderCode = generateOrderCode(user.getUsername());
-
-        List<Order> orders = new ArrayList<>();
-        for(OrderRequestDTO.InnerOrderRequestDTO orderRequests : orderRequestDTO.getOrderRequests()) {
-            Product product = productMap.get(orderRequests.getProductName());
-
-            LOG.info("Reserve Product Quantities");
-            reserveProductQuantities(product.getProductId(), orderRequests.getProductQuantity(), product.getProductName());
-
-            LOG.info("Mapping Orders");
-            Order order = this.mapOrder(orderRequests, user, product.getProductId(), orderCode, orderRequestDTO.getAddress());
-            orders.add(order);
-        }
-
-        // Payment Gateway Logic
-        LOG.info("Initiating Payment");
-        String response = paymentService.makePayment();
-
-        if(response.equals(SUCCESS)) {
-            try {
-                LOG.info("Confirming Order");
-                confirmOrder(productMap, orderRequestDTO.getOrderRequests());
-            } catch(Exception e) {
-                response = FAIL;
-                releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
-                // Refund Payment
-                paymentService.refundPayment();
-                return response;
-            }
-
-            try {
-                LOG.info("Saving Orders");
-                orderRepository.saveAll(orders);
-            } catch(Exception e) {
-                response = FAIL;
-                releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
-                // refund payment
-                paymentService.refundPayment();
-                return response;
-            }
-        } else {
-            releaseReservedQuantities(productMap, orderRequestDTO.getOrderRequests());
-            response = FAIL;
-        }
-
-        return response;
+        return null;
     }
 
     @Override
