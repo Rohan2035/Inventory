@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "product_quantity")
+@Table(name = "quantity")
 @Getter
 @Setter
 public class Quantity {
@@ -18,7 +18,7 @@ public class Quantity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_quantity_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "product_id")
     private Integer productId;
@@ -27,5 +27,5 @@ public class Quantity {
     private Integer reservedQuantity;
 
     @Column(name ="product_quantity")
-    private Integer product_quantity;
+    private Integer productQuantity;
 }

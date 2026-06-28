@@ -1,6 +1,6 @@
 package com.rohan.ecom.service;
 
-import com.rohan.ecom.dao.OrderDAO;
+import com.rohan.ecom.component.OrderComponent;
 import com.rohan.ecom.dto.OrderNativeSqlResponseDTO;
 import com.rohan.ecom.dto.OrderProductResponseDTO;
 import com.rohan.ecom.dto.OrderRequestDTO;
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentService paymentService;
 
     @Autowired
-    private OrderDAO orderDAO;
+    private OrderComponent orderComponent;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, UserDetailsRepository userDetailsRepository,
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
         for(OrderRequestDTO.InnerOrderRequestDTO orderRequest : orderRequestDTO.getOrderRequests()) {
             LOG.info("Reserve Order for: " + orderCode.substring(0, 4) + "....");
-            orderDAO.reserveProductQuantities(orderRequest.getProductId(), orderRequest.getProductQuantity());
+            orderComponent.reserveProductQuantities(orderRequest.getProductId(), orderRequest.getProductQuantity());
 
             Order order = mapOrder(orderRequest, orderCode, "ADDRESS");
             orders.add(order);
