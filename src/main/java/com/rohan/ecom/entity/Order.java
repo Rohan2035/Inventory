@@ -33,7 +33,7 @@ public class Order {
     private BigDecimal productPrice;
 
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 
     @Column(name = "ADDRESS")
     private String orderAddress;

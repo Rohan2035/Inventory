@@ -17,4 +17,23 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
         AND q.productQuantity >= :quantity
     """)
     int reserveProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+        UPDATE Quantity q
+        set q.reservedQuantity = q.reservedQuantity - :quantity
+        WHERE q.productId = :id
+        AND q.reservedQuantity >= :quantity
+    """)
+    int confirmProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("""
+        UPDATE Quantity q
+        set q.productQuantity = q.productQuantity + :quantity,
+        q.reservedQuantity = q.reservedQuantity - :quantity
+        WHERE q.productId = :id
+        AND q.productQuantity >= :quantity
+    """)
+    int releaseProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
 }

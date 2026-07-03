@@ -44,12 +44,12 @@ public class OrderController {
         LOG.info("=== Adding Orders ===");
         long startTime = System.currentTimeMillis();
 
-        String status =  orderService.addOrder(requestDTO);
+        Map<String, String> status =  orderService.createOrder(requestDTO);
 
         long endTime = System.currentTimeMillis();
         LOG.info("Add Order - Total Time Taken: {} ms", (endTime - startTime));
 
         LOG.info("<============ Order status: {} =============>", status);
-        return Map.of("Status", status);
+        return status;
     }
 }

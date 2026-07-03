@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             WHERE p.productId = :id
             AND p.productQuantity >= :quantity
             """)
-    int reserveProductQuantity(@Param("id") Integer productId, @Param("quantity") Integer productQuantity);
+    int reserveProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
 
     @Modifying
     @Query("""
@@ -32,7 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             WHERE p.productId = :id
             AND p.productQuantity >= :quantity
             """)
-    int releaseReservedQuantities(@Param("id") Integer productId, @Param("quantity") Integer productQuantity);
+    int releaseReservedQuantities(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
 
     @Modifying
     @Query("""
@@ -40,7 +40,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             SET p.reservedQuantity = p.reservedQuantity - :quantity
             WHERE p.productId = :id
             """)
-    int confirmOrder(@Param("id") Integer productId, @Param("quantity") Integer productQuantity);
+    int confirmOrder(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
 
     Optional<List<Product>> findByProductNameIn(Set<String> productName);
 
