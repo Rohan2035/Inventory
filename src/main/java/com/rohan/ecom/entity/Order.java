@@ -33,12 +33,11 @@ public class Order {
     private BigDecimal productPrice;
 
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 
     @Column(name = "ADDRESS")
     private String orderAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Integer userId;
 }
