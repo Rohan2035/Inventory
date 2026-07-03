@@ -73,9 +73,72 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Map<String, String> createOrder(OrderRequestDTO orderRequestDTO) {
+        Map<String, String> orderStatus = new HashMap<>();
         String orderCode = generateOrderCode();
 
-        return Map.of();
+        LOG.info("Creating order for order code: {}", orderCode);
+
+        // Fetch userId
+        Integer userId = fetchUserId(orderRequestDTO.getUserEmail());
+
+        List<Order> orders = new ArrayList<>();
+
+        // Reserve product quantity
+        for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTO.getOrderRequests()) {
+            try {
+                orderComponent.reserveProductQuantities(requests.getProductId(), requests.getProductQuantity());
+
+                // Will create an address table for multiple addresses
+                Order order  = mapOrder(requests, orderCode, "address", userId);
+                orders.add(order);
+
+            } catch(ProductQuantityExceededException e) {
+                // We can make this asynchronous
+                LOG.info("Product quantity exceeded for the order code: {}", orderCode);
+                orderComponent.releaseProductQuantity(orderRequestDTO.getOrderRequests());
+                orderStatus.put(requests.getProductName(), "Quantity Exceeded");
+
+                break;
+            }
+        }
+
+        if(!orderStatus.isEmpty()) {
+            return orderStatus;
+        }
+
+        // Make Payment
+        String paymentResult = paymentService.makePayment();
+
+        if("SUCCESS".equalsIgnoreCase(paymentResult)) {
+            // Confirm Product quantity
+            try {
+                orderComponent.confirmProductQuantity(orderRequestDTO.getOrderRequests());
+
+            } catch(Exception e) {
+                // Release the reserved product quantity -> Can be done asynchronously
+                orderComponent.releaseProductQuantity(orderRequestDTO.getOrderRequests());
+                String refundStatus = paymentService.refundPayment();
+                orderStatus.put("Refund Status", refundStatus);
+                return orderStatus;
+            }
+        } else {
+            orderComponent.releaseProductQuantity(orderRequestDTO.getOrderRequests());
+            String refundStatus = paymentService.refundPayment();
+            orderStatus.put("Refund Status", refundStatus);
+            return orderStatus;
+        }
+
+        try {
+            orderRepository.saveAll(orders);
+        } catch(Exception e) {
+            orderComponent.rollbackQuantity(orderRequestDTO.getOrderRequests());
+            String refundStatus = paymentService.refundPayment();
+            orderStatus.put("Refund Status", refundStatus);
+            return orderStatus;
+        }
+
+        orderStatus.put("Status", "SUCCESS");
+        return orderStatus;
     }
 
     @Override

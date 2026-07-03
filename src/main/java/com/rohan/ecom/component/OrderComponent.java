@@ -2,6 +2,7 @@ package com.rohan.ecom.component;
 
 import com.rohan.ecom.dto.OrderRequestDTO;
 import com.rohan.ecom.entity.Order;
+import com.rohan.ecom.exceptions.OpenEcomException;
 import com.rohan.ecom.exceptions.ProductQuantityExceededException;
 import com.rohan.ecom.repository.QuantityRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,8 @@ public class OrderComponent {
             int rowsUpdated = quantityRepository.confirmProductQuantity(requests.getProductId(), requests.getProductQuantity());
 
             if(rowsUpdated == 0) {
-                log.info("Quantity Exception product id: {}", requests.getProductId());
-                throw new ProductQuantityExceededException("Quantity Exceeded");
+                log.info("Exception product id while confirming quantity for product id: {}", requests.getProductId());
+                throw new OpenEcomException("Exception occurred while confirming ordered quantity");
             }
 
             log.info("Item quantity confirmed for product id: {}", requests.getProductId());
@@ -47,6 +48,13 @@ public class OrderComponent {
         for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTOS) {
             quantityRepository.releaseProductQuantity(requests.getProductId(), requests.getProductQuantity());
             log.info("Item quantity released for product id: {}", requests.getProductId());
+        }
+    }
+
+    public void rollbackQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> requests) {
+        for(OrderRequestDTO.InnerOrderRequestDTO request : requests) {
+            quantityRepository.rollbackQuantity(request.getProductId(), request.getProductQuantity());
+            log.info("Item Quantity released for product id: {}", request.getProductId());
         }
     }
 }
