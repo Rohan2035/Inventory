@@ -1,14 +1,12 @@
 package com.rohan.ecom.component;
 
 import com.rohan.ecom.dto.OrderRequestDTO;
-import com.rohan.ecom.entity.Order;
 import com.rohan.ecom.exceptions.OpenEcomException;
 import com.rohan.ecom.exceptions.ProductQuantityExceededException;
 import com.rohan.ecom.repository.QuantityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,7 +18,7 @@ public class OrderComponent {
     @Autowired
     private QuantityRepository quantityRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void reserveProductQuantities(Long id, Integer quantity) {
         int rowsUpdated = quantityRepository.reserveProductQuantity(id, quantity);
 

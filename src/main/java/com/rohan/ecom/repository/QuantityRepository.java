@@ -16,7 +16,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
         WHERE q.productId = :id
         AND q.productQuantity >= :quantity
     """)
-    int reserveProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+    int reserveProductQuantity(@Param("id") Long id, @Param("quantity") Integer productQuantity);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
@@ -25,7 +25,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
         WHERE q.productId = :id
         AND q.reservedQuantity >= :quantity
     """)
-    int confirmProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+    int confirmProductQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
@@ -36,7 +36,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
         AND q.productQuantity >= :quantity
         AND q.reservedQuantity >= :quantity
     """)
-    void releaseProductQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+    void releaseProductQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
@@ -44,5 +44,5 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
         set q.productQuantity = q.productQuantity + :quantity
         where q.productId = :id
     """)
-    void rollbackQuantity(@Param("id") Long productId, @Param("quantity") Integer productQuantity);
+    void rollbackQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 }
