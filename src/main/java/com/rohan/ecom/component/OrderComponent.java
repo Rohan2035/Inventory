@@ -8,18 +8,19 @@ import com.rohan.ecom.repository.QuantityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
-@Transactional
 @Slf4j
 public class OrderComponent {
 
     @Autowired
     private QuantityRepository quantityRepository;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void reserveProductQuantities(Long id, Integer quantity) {
         int rowsUpdated = quantityRepository.reserveProductQuantity(id, quantity);
 
@@ -31,6 +32,7 @@ public class OrderComponent {
         log.info("Item quantity reserved for product id: {}", id);
     }
 
+    @Transactional
     public void confirmProductQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> orderRequestDTOS) {
         for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTOS) {
             int rowsUpdated = quantityRepository.confirmProductQuantity(requests.getProductId(), requests.getProductQuantity());
