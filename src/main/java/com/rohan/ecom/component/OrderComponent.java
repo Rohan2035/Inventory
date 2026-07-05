@@ -1,7 +1,6 @@
 package com.rohan.ecom.component;
 
 import com.rohan.ecom.dto.OrderRequestDTO;
-import com.rohan.ecom.entity.Order;
 import com.rohan.ecom.exceptions.OpenEcomException;
 import com.rohan.ecom.exceptions.ProductQuantityExceededException;
 import com.rohan.ecom.repository.QuantityRepository;
@@ -13,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-@Transactional
 @Slf4j
 public class OrderComponent {
 
     @Autowired
     private QuantityRepository quantityRepository;
 
+    @Transactional
     public void reserveProductQuantities(Long id, Integer quantity) {
         int rowsUpdated = quantityRepository.reserveProductQuantity(id, quantity);
 
@@ -31,6 +30,7 @@ public class OrderComponent {
         log.info("Item quantity reserved for product id: {}", id);
     }
 
+    @Transactional
     public void confirmProductQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> orderRequestDTOS) {
         for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTOS) {
             int rowsUpdated = quantityRepository.confirmProductQuantity(requests.getProductId(), requests.getProductQuantity());
@@ -44,6 +44,7 @@ public class OrderComponent {
         }
     }
 
+    @Transactional
     public void releaseProductQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> orderRequestDTOS) {
         for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTOS) {
             quantityRepository.releaseProductQuantity(requests.getProductId(), requests.getProductQuantity());
@@ -51,6 +52,7 @@ public class OrderComponent {
         }
     }
 
+    @Transactional
     public void rollbackQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> requests) {
         for(OrderRequestDTO.InnerOrderRequestDTO request : requests) {
             quantityRepository.rollbackQuantity(request.getProductId(), request.getProductQuantity());

@@ -1,6 +1,11 @@
 package com.rohan.ecom.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,10 +33,4 @@ public class Product {
 
     @Column(name = "product_price")
     private BigDecimal productPrice;
-
-    @Column(name = "product_quantity")
-    private Integer productQuantity;
-
-    @Column(name = "reserved_quantity")
-    private Integer reservedQuantity;
 }
