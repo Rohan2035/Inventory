@@ -70,7 +70,6 @@ public class LoginService {
 
         RefreshToken refreshTokenObject = new RefreshToken();
         refreshTokenObject.setUsername(loginDTO.username());
-        refreshTokenObject.setCreatedAt(Instant.now().toString());
         refreshTokenObject.setExpiresAt(Instant.now().plus(7, ChronoUnit.DAYS).toString());
         refreshTokenObject.setToken(refreshToken);
 

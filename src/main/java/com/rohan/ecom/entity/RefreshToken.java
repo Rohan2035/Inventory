@@ -23,11 +23,8 @@ public class RefreshToken {
     @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "token_value", unique = true)
+    @Column(name = "token", unique = true)
     private String token;
-
-    @Column(name = "created_at")
-    private String createdAt;
 
     @Column(name = "expires_at")
     private String expiresAt;

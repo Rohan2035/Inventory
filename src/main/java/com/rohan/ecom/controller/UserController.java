@@ -23,8 +23,8 @@ public class UserController {
     private LoginService loginService;
 
     @PostMapping("/refreshToken")
-    public Map<String, String> refreshAccessToken(String refreshToken) {
-        return Map.of("accessToke", loginService.refreshToken(refreshToken));
+    public Map<String, String> refreshAccessToken(@RequestBody String refreshToken) {
+        return Map.of("accessToken", loginService.refreshToken(refreshToken));
     }
 
     @PostMapping("/login")
