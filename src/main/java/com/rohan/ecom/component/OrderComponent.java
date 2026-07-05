@@ -44,6 +44,7 @@ public class OrderComponent {
         }
     }
 
+    @Transactional
     public void releaseProductQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> orderRequestDTOS) {
         for(OrderRequestDTO.InnerOrderRequestDTO requests : orderRequestDTOS) {
             quantityRepository.releaseProductQuantity(requests.getProductId(), requests.getProductQuantity());
@@ -51,6 +52,7 @@ public class OrderComponent {
         }
     }
 
+    @Transactional
     public void rollbackQuantity(List<OrderRequestDTO.InnerOrderRequestDTO> requests) {
         for(OrderRequestDTO.InnerOrderRequestDTO request : requests) {
             quantityRepository.rollbackQuantity(request.getProductId(), request.getProductQuantity());

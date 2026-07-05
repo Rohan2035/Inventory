@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface QuantityRepository extends JpaRepository<Quantity, Long> {
 
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE Quantity q
         set q.reservedQuantity = q.reservedQuantity + :quantity,
@@ -18,7 +18,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     """)
     int reserveProductQuantity(@Param("id") Long id, @Param("quantity") Integer productQuantity);
 
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE Quantity q
         set q.reservedQuantity = q.reservedQuantity - :quantity
@@ -27,7 +27,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     """)
     int confirmProductQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE Quantity q
         set q.productQuantity = q.productQuantity + :quantity,
@@ -38,7 +38,7 @@ public interface QuantityRepository extends JpaRepository<Quantity, Long> {
     """)
     void releaseProductQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
 
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE Quantity q
         set q.productQuantity = q.productQuantity + :quantity
