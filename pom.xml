@@ -11,7 +11,8 @@
 	<groupId>com.rohan</groupId>
 	<artifactId>open-ecom</artifactId>
 	<version>0.0.1</version>
-	<name>Open Ecom</name>
+    <packaging>pom</packaging>
+    <name>Open Ecom</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -20,16 +21,23 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+
+    <modules>
+        <module>open-ecom-orders</module>
+    </modules>
+
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
+
+    <properties>
 		<java.version>17</java.version>
 	</properties>
-	<dependencies>
+
+    <dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -78,7 +86,8 @@
             <version>8.0.33</version>
         </dependency>
     </dependencies>
-	<build>
+
+    <build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
