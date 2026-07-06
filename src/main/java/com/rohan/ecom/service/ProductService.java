@@ -5,5 +5,5 @@ import com.rohan.ecom.dto.ProductResponseDTO;
 
 public interface ProductService {
      ProductResponseDTO getProductByProductName(String name);
-     ProductListDTO getProductSuggestion(String username);
+     ProductListDTO getProductSuggestion();
 }

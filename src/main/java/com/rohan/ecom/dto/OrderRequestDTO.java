@@ -14,6 +14,7 @@ public class OrderRequestDTO {
 
     @Data
     public static class InnerOrderRequestDTO {
+        private Long productId;
         private String productName;
         private BigDecimal productPrice;
         private int productQuantity;

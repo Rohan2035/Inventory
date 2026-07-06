@@ -35,13 +35,13 @@ public class ProductController {
     }
 
     @GetMapping("/productsuggestion")
-    public ProductListDTO getProductSuggestions(@RequestParam("username") String username) {
+    public ProductListDTO getProductSuggestions() {
         ProductListDTO productListDTO;
 
         LOG.info("=== Fetching Product Suggestions ===");
         long startTime = System.currentTimeMillis();
 
-        productListDTO = productService.getProductSuggestion(username);
+        productListDTO = productService.getProductSuggestion();
 
         long endTime = System.currentTimeMillis();
         LOG.info("GET Product Suggestions - Time Taken: {}ms", (endTime - startTime));
