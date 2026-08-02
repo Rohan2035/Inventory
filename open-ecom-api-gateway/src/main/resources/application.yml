@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: open-ecom-api-gateway
+  profiles:
+    active: local
